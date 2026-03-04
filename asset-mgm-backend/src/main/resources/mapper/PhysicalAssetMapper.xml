@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.asset.module.physical.mapper.PhysicalAssetMapper">
+
+    <select id="selectPageWithDetail" resultType="java.util.Map">
+        SELECT
+            pa.*,
+            dc.cat_name AS categoryName,
+            al.loc_name AS locationName,
+            p.project_name AS projectName,
+            u.real_name AS custodianName
+        FROM physical_asset pa
+        LEFT JOIN device_category dc ON pa.category_id = dc.id
+        LEFT JOIN asset_location al ON pa.location_id = al.id
+        LEFT JOIN project p ON pa.project_id = p.id
+        LEFT JOIN sys_user u ON pa.custodian_id = u.id
+        WHERE pa.deleted = 0
+        <if test="assetName != null and assetName != ''">
+            AND pa.asset_name LIKE CONCAT('%', #{assetName}, '%')
+        </if>
+        <if test="categoryId != null">
+            AND pa.category_id = #{categoryId}
+        </if>
+        <if test="status != null and status != ''">
+            AND pa.status = #{status}
+        </if>
+        <if test="projectId != null">
+            AND pa.project_id = #{projectId}
+        </if>
+        ORDER BY pa.created_at DESC
+    </select>
+
+    <select id="selectPageWithDetailCount" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM physical_asset pa
+        WHERE pa.deleted = 0
+        <if test="assetName != null and assetName != ''">
+            AND pa.asset_name LIKE CONCAT('%', #{assetName}, '%')
+        </if>
+        <if test="categoryId != null">
+            AND pa.category_id = #{categoryId}
+        </if>
+        <if test="status != null and status != ''">
+            AND pa.status = #{status}
+        </if>
+        <if test="projectId != null">
+            AND pa.project_id = #{projectId}
+        </if>
+    </select>
+
+</mapper>

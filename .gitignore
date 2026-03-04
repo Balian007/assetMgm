@@ -1,0 +1,36 @@
+﻿# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.tmp
+
+# Logs
+*.log
+logs/
+
+# Local env
+.env
+.env.*
+
+# Backend build artifacts
+asset-mgm-backend/target/
+*.class
+
+# Frontend build artifacts
+asset-mgm-frontend/node_modules/
+asset-mgm-frontend/dist/
+asset-mgm-frontend/.vite/
+
+# Task/runtime artifacts
+tasks/*.log
+tasks/*.out
+tasks/*.err
+tasks/chrome-mobile-debug/
+
+# Local assistant workspace
+.claude/
+
+# Extracted temporary jars
+tasks/hashlib/
+
