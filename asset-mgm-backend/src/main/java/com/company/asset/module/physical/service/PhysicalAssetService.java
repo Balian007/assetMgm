@@ -1,4 +1,4 @@
-﻿package com.company.asset.module.physical.service;
+package com.company.asset.module.physical.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

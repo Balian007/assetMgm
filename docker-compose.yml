@@ -1,0 +1,77 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: asset-mgm-mysql
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+08:00
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-asset_mgm}
+      MYSQL_USER: ${MYSQL_USER:-asset_mgm}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-asset_mgm_pwd}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./asset-mgm-backend/src/main/resources/db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./asset-mgm-backend/src/main/resources/db/mock_data.sql:/docker-entrypoint-initdb.d/02_mock_data.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    networks:
+      - asset_mgm_net
+
+  backend:
+    build:
+      context: ./asset-mgm-backend
+      dockerfile: Dockerfile
+    image: asset-mgm/backend:1.0.0
+    container_name: asset-mgm-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-asset_mgm}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-asset_mgm}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-asset_mgm_pwd}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+      FILE_UPLOAD_PATH: ${FILE_UPLOAD_PATH:-/data/asset-mgm/uploads}
+      JAVA_OPTS: ${JAVA_OPTS:-}
+    volumes:
+      - backend_uploads:/data/asset-mgm/uploads
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - asset_mgm_net
+
+  frontend:
+    build:
+      context: ./asset-mgm-frontend
+      dockerfile: Dockerfile
+    image: asset-mgm/frontend:1.0.0
+    container_name: asset-mgm-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    networks:
+      - asset_mgm_net
+
+volumes:
+  mysql_data:
+  backend_uploads:
+
+networks:
+  asset_mgm_net:
+    driver: bridge

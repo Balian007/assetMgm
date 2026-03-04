@@ -1,4 +1,4 @@
-﻿package com.company.asset.module.digital.service;
+package com.company.asset.module.digital.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

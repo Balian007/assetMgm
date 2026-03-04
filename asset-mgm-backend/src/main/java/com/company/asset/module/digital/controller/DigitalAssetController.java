@@ -1,4 +1,4 @@
-﻿package com.company.asset.module.digital.controller;
+package com.company.asset.module.digital.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.company.asset.common.result.PageResult;

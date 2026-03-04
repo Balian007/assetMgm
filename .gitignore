@@ -1,4 +1,4 @@
-﻿# OS / Editor
+# OS / Editor
 .DS_Store
 Thumbs.db
 .vscode/
@@ -12,6 +12,7 @@ logs/
 # Local env
 .env
 .env.*
+!.env.example
 
 # Backend build artifacts
 asset-mgm-backend/target/

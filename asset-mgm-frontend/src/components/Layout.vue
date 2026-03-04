@@ -2,7 +2,7 @@
   <div class="app-layout">
     <div v-if="isMobile && !collapsed" class="sidebar-mask" @click="closeSidebar"></div>
 
-    <!-- 侧边栏 -->
+    <!-- 娓氀嗙珶閺?-->
     <aside class="sidebar" :class="{ collapsed }">
       <!-- Logo -->
       <div class="sidebar-logo">
@@ -19,16 +19,16 @@
         </transition>
       </div>
 
-      <!-- 导航菜单 -->
+      <!-- 鐎佃壈鍩呴懣婊冨礋 -->
       <nav class="sidebar-nav">
-        <!-- 总览 -->
+        <!-- 閹槒顫?-->
         <router-link to="/dashboard" class="nav-item" :class="{ active: isActive('/dashboard') }" @click="handleNavClick">
           <span class="nav-icon"><IconDashboard /></span>
           <transition name="fade"><span v-if="!collapsed" class="nav-label">总览</span></transition>
           <span v-if="isActive('/dashboard')" class="active-bar"></span>
         </router-link>
 
-        <!-- 实物资产 -->
+        <!-- 鐎圭偟澧跨挧鍕獓 -->
         <div class="nav-group">
           <transition name="fade">
             <div v-if="!collapsed" class="nav-group-label">实物资产</div>
@@ -41,7 +41,7 @@
           </router-link>
         </div>
 
-        <!-- 数字资产 -->
+        <!-- 閺佹澘鐡х挧鍕獓 -->
         <div class="nav-group">
           <transition name="fade">
             <div v-if="!collapsed" class="nav-group-label">数字资产</div>
@@ -53,7 +53,7 @@
           </router-link>
         </div>
 
-        <!-- 管理 -->
+        <!-- 缁狅紕鎮?-->
         <div class="nav-group">
           <transition name="fade">
             <div v-if="!collapsed" class="nav-group-label">管理</div>
@@ -66,7 +66,7 @@
           </router-link>
         </div>
 
-        <!-- 系统 -->
+        <!-- 缁崵绮?-->
         <div class="nav-group">
           <transition name="fade">
             <div v-if="!collapsed" class="nav-group-label">系统</div>
@@ -80,15 +80,15 @@
         </div>
       </nav>
 
-      <!-- 折叠按钮 -->
+      <!-- 閹舵ê褰旈幐澶愭尦 -->
       <button class="collapse-btn" @click="collapsed = !collapsed" :title="collapsed ? '展开' : '收起'">
         <IconChevron :class="{ rotated: collapsed }" />
       </button>
     </aside>
 
-    <!-- 主区域 -->
+    <!-- 娑撹灏崺?-->
     <div class="main-wrapper">
-      <!-- 顶部 Header -->
+      <!-- 妞ゅ爼鍎?Header -->
       <header class="topbar">
         <div class="topbar-left">
           <button v-if="isMobile" class="mobile-menu-btn" @click="openSidebar" aria-label="打开菜单">
@@ -106,7 +106,7 @@
           <el-dropdown @command="handleCommand" trigger="click">
             <div class="user-pill">
               <div class="user-avatar">{{ avatarText }}</div>
-              <span class="user-name">{{ userStore.userInfo.realName || userStore.userInfo.username }}</span>
+              <span class="user-name">{{ displayName }}</span>
               <svg class="chevron-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -122,7 +122,7 @@
         </div>
       </header>
 
-      <!-- 内容区 -->
+      <!-- 閸愬懎顔愰崠?-->
       <main class="page-content">
         <router-view />
       </main>
@@ -237,9 +237,28 @@ const routeTitleMap = {
 }
 
 const currentTitle = computed(() => route.meta?.title || routeTitleMap[route.path] || '')
+const displayName = computed(() => {
+  const username = userStore.userInfo.username || ''
+  if (typeof username === 'string' && username) return username
+
+  const raw = userStore.userInfo.realName || ''
+  if (typeof raw !== 'string') return ''
+
+  const suspicious = /[ÃÂ]/.test(raw)
+  if (!suspicious) return raw
+
+  try {
+    const decoded = decodeURIComponent(escape(raw))
+    if (decoded) return decoded
+  } catch {
+    // keep fallback
+  }
+
+  return raw
+})
 
 const avatarText = computed(() => {
-  const name = userStore.userInfo.realName || userStore.userInfo.username || ''
+  const name = displayName.value || ''
   return name.charAt(0).toUpperCase()
 })
 

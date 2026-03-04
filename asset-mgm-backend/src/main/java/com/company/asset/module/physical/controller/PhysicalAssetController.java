@@ -1,4 +1,4 @@
-﻿package com.company.asset.module.physical.controller;
+package com.company.asset.module.physical.controller;
 
 import com.company.asset.common.result.PageResult;
 import com.company.asset.common.result.Result;

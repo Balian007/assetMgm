@@ -29,9 +29,24 @@ import { useUserStore } from '@/stores/user'
 const router = useRouter()
 const userStore = useUserStore()
 
+function decodeName(raw) {
+  if (typeof raw !== 'string' || !raw) return ''
+  const suspicious = /[ÃÂ脙脗]/.test(raw)
+  if (!suspicious) return raw
+  try {
+    const decoded = decodeURIComponent(escape(raw))
+    if (decoded) return decoded
+  } catch {
+    // fallback to raw text when decode fails
+  }
+  return raw
+}
+
 const welcomeText = computed(() => {
-  const name = userStore.userInfo?.realName || userStore.userInfo?.username || '运维人员'
-  return `当前用户：${name}`
+  const username = decodeName(userStore.userInfo?.username || '')
+  const realName = decodeName(userStore.userInfo?.realName || '')
+  const name = username || realName || '运维人员'
+  return `当前用户名：${name}`
 })
 
 function logout() {
@@ -76,10 +91,15 @@ h1 {
 }
 
 .action-btn {
+  margin-left: 0 !important;
   width: 100%;
   height: 48px;
   font-size: 16px;
   border-radius: 10px;
+}
+
+.actions :deep(.el-button + .el-button) {
+  margin-left: 0;
 }
 
 .footer-row {
