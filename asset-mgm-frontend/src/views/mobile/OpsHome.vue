@@ -60,7 +60,7 @@ function logout() {
   min-height: 100svh;
   display: grid;
   place-items: center;
-  padding: 16px;
+  padding: 20px;
   background: linear-gradient(180deg, #f3f7ff, #e8effc);
 }
 
@@ -69,7 +69,7 @@ function logout() {
   background: #fff;
   border: 1px solid #d6e3fa;
   border-radius: 16px;
-  padding: 20px;
+  padding: 24px;
   box-shadow: 0 12px 28px rgba(20, 40, 75, 0.12);
 }
 
@@ -80,14 +80,14 @@ h1 {
 }
 
 .subtitle {
-  margin: 8px 0 18px;
+  margin: 8px 0 24px;
   color: #5d7397;
   font-size: 13px;
 }
 
 .actions {
   display: grid;
-  gap: 12px;
+  gap: 16px;
 }
 
 .action-btn {
@@ -103,7 +103,7 @@ h1 {
 }
 
 .footer-row {
-  margin-top: 14px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -224,14 +224,15 @@ onMounted(loadTasks)
 .mobile-page {
   min-height: 100svh;
   background: #f3f7ff;
-  padding: 12px;
+  padding: 16px;
 }
 
 .topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
+  gap: 12px;
 }
 
 .topbar h2 {
@@ -245,15 +246,16 @@ onMounted(loadTasks)
 }
 
 .row-actions {
-  margin-top: 8px;
+  margin-top: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 .submit-btn {
   width: 100%;
-  height: 44px;
-  margin-top: 8px;
+  height: 48px;
+  margin-top: 16px;
 }
 </style>

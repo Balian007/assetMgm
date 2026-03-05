@@ -239,7 +239,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .page-title {
@@ -259,7 +260,8 @@ a {
 }
 
 .el-form--inline .el-form-item {
-  margin-bottom: 0;
+  margin-right: 12px;
+  margin-bottom: 12px;
 }
 
 @media (max-width: 980px) {
