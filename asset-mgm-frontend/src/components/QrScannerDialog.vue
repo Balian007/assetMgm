@@ -68,21 +68,16 @@ async function startScanner() {
 
   try {
     scannerInstance.value = new Html5Qrcode(scannerElementId)
-    const devices = await Html5Qrcode.getCameras()
-    if (!devices || devices.length === 0) {
-      errorText.value = '未检测到摄像头，请手动输入二维码内容。'
-      return
+
+    const config = {
+      fps: 10,
+      qrbox: { width: 220, height: 220 },
+      aspectRatio: 1.0
     }
 
-    const backCamera = devices.find((d) => /back|rear|environment|后置/i.test(d.label || ''))
-    const cameraId = (backCamera || devices[0]).id
-
     await scannerInstance.value.start(
-      cameraId,
-      {
-        fps: 10,
-        qrbox: { width: 220, height: 220 }
-      },
+      { facingMode: "environment" },
+      config,
       async (decodedText) => {
         emit('scanned', decodedText)
         await closeDialog()
@@ -90,8 +85,9 @@ async function startScanner() {
       () => {}
     )
     scanning.value = true
-  } catch {
-    errorText.value = '摄像头扫码启动失败，请检查浏览器权限或手动输入。'
+  } catch (err) {
+    console.error('Scanner error:', err)
+    errorText.value = '摄像头启动失败。请确保：1) 使用HTTPS访问 2) 已授权摄像头权限 3) 或手动输入二维码'
     await stopScanner()
   }
 }
