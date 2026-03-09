@@ -35,3 +35,11 @@ export const inventoryApi = {
   getDetails: (taskId) => request.get(`/physical/inventory/${taskId}/details`),
   submitDetail: (taskId, data) => request.post(`/physical/inventory/${taskId}/details`, data)
 }
+
+export const qrPoolApi = {
+  generate: (count) => request.post('/physical/qr-pool/generate', { count }),
+  page: (params) => request.get('/physical/qr-pool', { params }),
+  bind: (qrCode, assetId) => request.post('/physical/qr-pool/bind', { qrCode, assetId }),
+  getByCode: (qrCode) => request.get(`/physical/qr-pool/${qrCode}`),
+  exportBatch: (batchNo) => request.get(`/physical/qr-pool/export/${batchNo}`, { responseType: 'blob' })
+}

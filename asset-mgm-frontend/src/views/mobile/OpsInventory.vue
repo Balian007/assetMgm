@@ -70,8 +70,8 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { inventoryApi, physicalAssetApi } from '@/api/physical'
-import { extractAssetNoFromQr, normalizeQrText, parseAssetIdFromQr } from '@/utils/assetQr'
+import { inventoryApi, physicalAssetApi, qrPoolApi } from '@/api/physical'
+import { extractAssetNoFromQr, normalizeQrText, parseAssetIdFromQr, isQrPoolFormat } from '@/utils/assetQr'
 import QrScannerDialog from '@/components/QrScannerDialog.vue'
 
 const taskOptions = ref([])
@@ -163,6 +163,18 @@ async function resolveAssetByQr() {
 
   if (!asset?.id) {
     asset = await findAssetByQrContent(qrText)
+  }
+
+  if (!asset?.id && isQrPoolFormat(qrText)) {
+    try {
+      const poolEntry = await qrPoolApi.getByCode(qrText)
+      if (poolEntry?.assetId) {
+        const res = await physicalAssetApi.getById(poolEntry.assetId)
+        asset = res.data || null
+      }
+    } catch {
+      asset = null
+    }
   }
 
   if (!asset?.id) {

@@ -60,3 +60,7 @@ export function extractAssetNoFromQr(content) {
   return null
 }
 
+export function isQrPoolFormat(qrText) {
+  return /^QR-\d{8}-\d{5}$/.test(qrText)
+}
+

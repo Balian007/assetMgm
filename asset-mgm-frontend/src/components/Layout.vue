@@ -198,6 +198,12 @@ const IconMapPin = defineComponent({ render: () => h('svg', { width: 16, height:
   h('circle', { cx: 12, cy: 10, r: 3, stroke: 'currentColor', 'stroke-width': 1.8 }),
 ]) })
 
+const IconQrCode = defineComponent({ render: () => h('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none' }, [
+  h('rect', { x: 3, y: 3, width: 7, height: 7, rx: 1, stroke: 'currentColor', 'stroke-width': 1.8 }),
+  h('rect', { x: 14, y: 3, width: 7, height: 7, rx: 1, stroke: 'currentColor', 'stroke-width': 1.8 }),
+  h('rect', { x: 3, y: 14, width: 7, height: 7, rx: 1, stroke: 'currentColor', 'stroke-width': 1.8 }),
+]) })
+
 const IconChevron = defineComponent({
   render: () => h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none' }, [
     h('path', { d: 'M15 18l-6-6 6-6', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }),
@@ -206,6 +212,7 @@ const IconChevron = defineComponent({
 
 const physicalItems = [
   { path: '/physical/assets', label: '设备台账', icon: IconMonitor },
+  { path: '/physical/qr-pool', label: '二维码池', icon: IconQrCode },
   { path: '/physical/inspections', label: '巡检管理', icon: IconSearch },
   { path: '/physical/maintenance', label: '维修工单', icon: IconWrench },
   { path: '/physical/inventory', label: '资产盘点', icon: IconClipboard },

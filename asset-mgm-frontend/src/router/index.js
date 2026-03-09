@@ -8,6 +8,7 @@ const routes = [
   { path: '/m/ops', component: () => import('@/views/mobile/OpsHome.vue'), meta: { title: '移动作业' } },
   { path: '/m/ops/inspection', component: () => import('@/views/mobile/OpsInspection.vue'), meta: { title: '巡检扫码打卡' } },
   { path: '/m/ops/inventory', component: () => import('@/views/mobile/OpsInventory.vue'), meta: { title: '盘点扫码录入' } },
+  { path: '/m/qr-bind', component: () => import('@/views/mobile/QrBind.vue'), meta: { title: '二维码绑定' } },
 
   {
     path: '/',
@@ -18,6 +19,7 @@ const routes = [
       // 实物资产
       { path: 'physical/assets', component: () => import('@/views/physical/AssetList.vue'), meta: { title: '设备台账' } },
       { path: 'physical/assets/:id', component: () => import('@/views/physical/AssetDetail.vue'), meta: { title: '设备详情' } },
+      { path: 'physical/qr-pool', component: () => import('@/views/physical/QrPoolManage.vue'), meta: { title: '二维码池' } },
       { path: 'physical/inspections', component: () => import('@/views/physical/InspectionList.vue'), meta: { title: '巡检管理' } },
       { path: 'physical/maintenance', component: () => import('@/views/physical/MaintenanceList.vue'), meta: { title: '维修工单' } },
       { path: 'physical/inventory', component: () => import('@/views/physical/InventoryList.vue'), meta: { title: '资产盘点' } },

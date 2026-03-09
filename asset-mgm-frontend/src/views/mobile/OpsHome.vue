@@ -11,6 +11,9 @@
         <el-button size="large" class="action-btn" @click="$router.push('/m/ops/inventory')">
           盘点录入
         </el-button>
+        <el-button size="large" class="action-btn" @click="$router.push('/m/qr-bind')">
+          二维码绑定
+        </el-button>
       </div>
 
       <div class="footer-row">
@@ -60,16 +63,16 @@ function logout() {
   min-height: 100svh;
   display: grid;
   place-items: center;
-  padding: 20px;
+  padding: 20px 16px;
   background: linear-gradient(180deg, #f3f7ff, #e8effc);
 }
 
 .ops-card {
-  width: min(100%, 420px);
+  width: min(calc(100% - 32px), 420px);
   background: #fff;
   border: 1px solid #d6e3fa;
   border-radius: 16px;
-  padding: 24px;
+  padding: 24px 20px;
   box-shadow: 0 12px 28px rgba(20, 40, 75, 0.12);
 }
 
